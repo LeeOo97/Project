@@ -9,9 +9,9 @@ sys.path.append('..')
 
 import pandas as pd
 
-
-#def import_from_pimp():
-    #Token generation
+#class pimport:
+    #def import_pimp():
+#Token generation
 username = '2143815O' #username
 password = 'XPNfM4nfYQ' #password
 host = PIMP_HOST #server address and port
@@ -32,4 +32,8 @@ df.set_index('pid')
 #loads MS2 fragmentation data 
 frags = get_ms2_peaks(token, PIMP_HOST, analysis_id, as_dataframe=False)
 
-print(frags.keys())
+spectra = frags['spectra']
+
+
+
+
