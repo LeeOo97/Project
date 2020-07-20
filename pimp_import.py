@@ -31,3 +31,5 @@ df.set_index('pid')
 
 #loads MS2 fragmentation data 
 frags = get_ms2_peaks(token, PIMP_HOST, analysis_id, as_dataframe=False)
+
+print(frags.keys())
