@@ -38,7 +38,7 @@ def import_pimp():
     #initialises list for MS2peak objects
     spectra_list=[]
      
-
+    #creates MS2peak for each ms2 peak
     for index, row in frags_df.iterrows():        
         id = frags_df.loc[(index), 'ms2_id']
         ms1mz = frags_df.loc[(index), 'ms1_mz']
@@ -47,6 +47,7 @@ def import_pimp():
         peak = MS2peak(id, ms1mz, ms2mz, ms2rt)
         spectra_list.append(peak)
 
+    
     return spectra_list           
 
     
