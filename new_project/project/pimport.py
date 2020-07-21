@@ -9,7 +9,7 @@ import pickle
 sys.path.append('..')
 
 import pandas as pd
-import numpy as np
+import numpy
 
 #class pimport:
 def import_pimp():
@@ -37,17 +37,35 @@ def import_pimp():
 
     #initialises list for MS2peak objects
     spectra_list=[]
-     
+    rootintensity=[]
     #creates MS2peak for each ms2 peak
     for index, row in frags_df.iterrows():        
         id = frags_df.loc[(index), 'ms2_id']
         ms1mz = frags_df.loc[(index), 'ms1_mz']
         ms2mz = frags_df.loc[(index), 'ms2_mz']
         ms2rt = frags_df.loc[(index), 'ms2_intensity']
+
+        #appends intensity peak for euclidian norm calculation
+        rootintensity.append(ms2rt)
+
+        #creates the new object
         peak = MS2peak(id, ms1mz, ms2mz, ms2rt)
+        #adds to list
         spectra_list.append(peak)
 
-    
+    #prints specific value of list
+    print(spectra_list[100].rootMS2)
+
+    #calculates euclidian norm and scales
+    norm = numpy.linalg.norm(rootintensity)
+    for spectra in spectra_list:
+        scalednorm = (rootintensity)/norm
+        
+
+
+
+
+
     return spectra_list           
 
     
