@@ -47,7 +47,6 @@ def import_pimp():
         peak = MS2peak(id, ms1mz, ms2mz, ms2rt)
         spectra_list.append(peak)
 
-    print (spectra_list[1000].id)
     return spectra_list           
 
     
