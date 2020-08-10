@@ -60,10 +60,6 @@ def import_pimp():
     norm = numpy.linalg.norm(rootintensity)
     for spectra in spectra_list:
         scalednorm = (rootintensity)/norm
-        
-
-
-
 
 
     return spectra_list           
