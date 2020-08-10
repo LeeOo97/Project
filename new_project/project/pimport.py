@@ -39,7 +39,7 @@ def import_pimp():
     spectra_list=[]
     rootintensity=[]
     #creates MS2peak for each ms2 peak
-    for index, row in frags_df.iterrows():        
+    for index in frags_df.iterrows():        
         id = frags_df.loc[(index), 'ms2_id']
         ms1mz = frags_df.loc[(index), 'ms1_mz']
         ms2mz = frags_df.loc[(index), 'ms2_mz']
