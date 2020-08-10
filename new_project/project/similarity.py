@@ -10,5 +10,9 @@ def compare (spectra_list):
     for i in range(0, len(spectra_list)):
         s1 = spectra_list[i]
         for n in range (i+1, len(spectra_list)):
-            s2 = spectra_list[j]
+            s2 = spectra_list[n]
+
+            
+
+
 
