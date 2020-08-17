@@ -12,16 +12,20 @@ def compare (df,spectra_list):
     df = df
     spectra_list = spectra_list
 
+    print("running...")
+
     dicti = {}
-
-
 
     for i in range(0, len(spectra_list)):
         s1 = spectra_list[i]
         for n in range (i+1, len(spectra_list)):
             s2 = spectra_list[n]
 
-            cosine_score( s1, s2, i, n, round_precision=0)
+            if s1.id1 != s2.id1:
+               print (cosine_score( s1, s2, i, n, round_precision=0))
+
+
+            
 
 def cosine_score(s1, s2, i, n, round_precision = 0):
 
@@ -29,29 +33,21 @@ def cosine_score(s1, s2, i, n, round_precision = 0):
     vector2 = ddict(int)
     mzs= set()
 
-    for s1.ms2mz, i in s1("raw"):
-        vector1[round(s1.ms2mz, round_precision)] += i
-        mzs.add(round(s1.ms2mz, round_precision))
-    for s2.ms2mz, i in s2("raw"):
-        vector2[round(s2.ms2mz, round_precision)] += i
-        mzs.add(round(s2.ms2mz, round_precision))
-
     z = 0 
     n_v1 = 0
     n_v2 = 0
 
-    for mz in mzs:
-        int1 = vector1[ms2mz]
-        int2 = vector2[ms2mz]
-        z += int1 * int2
-        n_v1 += int1 * int1
-        n_v2 += int2 * int2
     
+    int1 = vector1[round(s1.ms2mz, round_precision)]
+    int2 = vector2[round(s2.ms2mz, round_precision)]
+    z += int1 * int2
+    n_v1 += int1 * int1
+    n_v2 += int2 * int2
+  
     try:
         cosine = z / (math.sqrt(n_v1) * math.sqrt(n_v2))
     except:
         cosine = 0.0
-
     return cosine
 
     
