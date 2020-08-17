@@ -1,3 +1,5 @@
 from project import pimport
+from project import similarity 
 
-pimport.import_pimp()
+
+similarity.compare(pimport.dfret(), pimport.import_pimp())

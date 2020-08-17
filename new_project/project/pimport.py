@@ -36,11 +36,17 @@ def import_pimp():
 
 
     #initialises list for MS2peak objects
-    spectra_list=[]
+
+    spectra_list = []
+    #spectra_list = np.array([], dtype = np.object)
+    #spectra_list = np.array([], dtype=object)
+    #float_spectra_list = np.vstack(spectra_list[:]).astype(np.float)
+
     rootintensity=[]
     #creates MS2peak for each ms2 peak
-    for index in frags_df.iterrows():        
-        id = frags_df.loc[(index), 'ms2_id']
+    for index, row in frags_df.iterrows(): 
+        id1 = frags_df.loc[(index), 'ms1_id']  
+        id2 = frags_df.loc[(index), 'ms2_id']
         ms1mz = frags_df.loc[(index), 'ms1_mz']
         ms2mz = frags_df.loc[(index), 'ms2_mz']
         ms2rt = frags_df.loc[(index), 'ms2_intensity']
@@ -49,7 +55,7 @@ def import_pimp():
         rootintensity.append(ms2rt)
 
         #creates the new object
-        peak = MS2peak(id, ms1mz, ms2mz, ms2rt)
+        peak = MS2peak(id1, id2 , ms1mz, ms2mz, ms2rt)
         #adds to list
         spectra_list.append(peak)
 
@@ -61,22 +67,27 @@ def import_pimp():
     for spectra in spectra_list:
         scalednorm = (rootintensity)/norm
 
+    return spectra_list
 
-    return spectra_list           
+def dfret ():
+    #Token generation
+    username = '2143815O' #username
+    password = 'XPNfM4nfYQ' #password
+    host = PIMP_HOST #server address and port
+    token = get_authentication_token(host, username, password)
 
-    
-    
+    #id for pimp project
+    analysis_id = 1321 # beer analysis
 
+    #fetches ms1 intensities
+    int_df, annotation_df, experimental_design = download_from_pimp(token, PIMP_HOST, analysis_id, 'ms1')
 
+    #loads all information associated with MS1 peaks
+    df = get_ms1_peaks(token, PIMP_HOST, analysis_id)
 
+    df.set_index('pid')
 
-
-
-
-
-
-
-
+    return df
 
 
 
