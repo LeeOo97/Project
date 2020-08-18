@@ -1,6 +1,6 @@
 from pals.pimp_tools import *
 from .mS2peak import MS2peak
-from .spectra import Spectra
+from .Spectra import Spectra
 import os
 import sys
 import pathlib
@@ -45,49 +45,36 @@ def import_pimp():
     #spectra_list = np.vstack(spectra_list[:]).astype(np.float)
 
     #creates spectra objects
-    for index in frags_df.iterrows(): 
+    for index, rows in frags_df.iterrows(): 
         id_temp = frags_df.loc[(index), 'ms1_id']
-        spectra=Spectra()
-        if id_temp == frags_df.loc[(index-1), 'ms1_id']:
+
+ 
+        if index == 0:
+            spectra = Spectra(id_temp)
+            id = frags_df.loc[(index), 'ms2_id']
+            ms2mz = frags_df.loc[(index), 'ms2_mz']
+            ms2rt = frags_df.loc[(index), 'ms2_intensity']
+            Spectra.add_peak(spectra, id, ms2mz, ms2rt)
+        elif id_temp == frags_df.loc[(index-1), 'ms1_id']:
             #adds to list
             id = frags_df.loc[(index), 'ms2_id']
             ms2mz = frags_df.loc[(index), 'ms2_mz']
             ms2rt = frags_df.loc[(index), 'ms2_intensity']
-            Spectra.add_peak(id, ms2mz, ms2rt)
+            Spectra.add_peak(spectra, id, ms2mz, ms2rt)
         else:
             #create new spectra and add to list
             spectra = Spectra(id_temp)
             id = frags_df.loc[(index), 'ms2_id']
             ms2mz = frags_df.loc[(index), 'ms2_mz']
             ms2rt = frags_df.loc[(index), 'ms2_intensity']
-            Spectra.add_peak(id, ms2mz, ms2rt)
+            Spectra.add_peak(spectra, id, ms2mz, ms2rt)
 
         spectra_list.append(spectra)
 
-    #prints specific value of list
-    print(spectra_list[1].rootMS2)
+
+    print(spectra_list[2].id1)
 
     return spectra_list
-
-def dfret ():
-    #Token generation
-    username = '2143815O' #username
-    password = 'XPNfM4nfYQ' #password
-    host = PIMP_HOST #server address and port
-    token = get_authentication_token(host, username, password)
-
-    #id for pimp project
-    analysis_id = 1321 # beer analysis
-
-    #fetches ms1 intensities
-    int_df, annotation_df, experimental_design = download_from_pimp(token, PIMP_HOST, analysis_id, 'ms1')
-
-    #loads all information associated with MS1 peaks
-    df = get_ms1_peaks(token, PIMP_HOST, analysis_id)
-
-    df.set_index('pid')
-
-    return df
 
 
 

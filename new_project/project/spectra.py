@@ -2,7 +2,7 @@ from .mS2peak import MS2peak
 import numpy
 
 class Spectra:
-    def __innit__(self, id1):
+    def __init__(self, id1):
         self.peaks = [] #list of ms2peaks
         self.id1 = id1 #ms1 id
 
