@@ -1,5 +1,6 @@
 from pals.pimp_tools import *
 from .mS2peak import MS2peak
+from .spectra import Spectra
 import os
 import sys
 import pathlib
@@ -32,6 +33,7 @@ def import_pimp():
     df.set_index('pid')
 
     #loads MS2 fragmentation data 
+
     frags_df = get_ms2_peaks(token, PIMP_HOST, analysis_id, as_dataframe=True)
 
 
@@ -40,32 +42,30 @@ def import_pimp():
     spectra_list = []
     #spectra_list = np.array([], dtype = np.object)
     #spectra_list = np.array([], dtype=object)
-    #float_spectra_list = np.vstack(spectra_list[:]).astype(np.float)
+    #spectra_list = np.vstack(spectra_list[:]).astype(np.float)
 
-    rootintensity=[]
-    #creates MS2peak for each ms2 peak
-    for index, row in frags_df.iterrows(): 
-        id1 = frags_df.loc[(index), 'ms1_id']  
-        id2 = frags_df.loc[(index), 'ms2_id']
-        ms1mz = frags_df.loc[(index), 'ms1_mz']
-        ms2mz = frags_df.loc[(index), 'ms2_mz']
-        ms2rt = frags_df.loc[(index), 'ms2_intensity']
+    #creates spectra objects
+    for index in frags_df.iterrows(): 
+        id_temp = frags_df.loc[(index), 'ms1_id']
+        spectra=Spectra()
+        if id_temp == frags_df.loc[(index-1), 'ms1_id']:
+            #adds to list
+            id = frags_df.loc[(index), 'ms2_id']
+            ms2mz = frags_df.loc[(index), 'ms2_mz']
+            ms2rt = frags_df.loc[(index), 'ms2_intensity']
+            Spectra.add_peak(id, ms2mz, ms2rt)
+        else:
+            #create new spectra and add to list
+            spectra = Spectra(id_temp)
+            id = frags_df.loc[(index), 'ms2_id']
+            ms2mz = frags_df.loc[(index), 'ms2_mz']
+            ms2rt = frags_df.loc[(index), 'ms2_intensity']
+            Spectra.add_peak(id, ms2mz, ms2rt)
 
-        #appends intensity peak for euclidian norm calculation
-        rootintensity.append(ms2rt)
-
-        #creates the new object
-        peak = MS2peak(id1, id2 , ms1mz, ms2mz, ms2rt)
-        #adds to list
-        spectra_list.append(peak)
+        spectra_list.append(spectra)
 
     #prints specific value of list
-    print(spectra_list[100].rootMS2)
-
-    #calculates euclidian norm and scales
-    norm = numpy.linalg.norm(rootintensity)
-    for spectra in spectra_list:
-        scalednorm = (rootintensity)/norm
+    print(spectra_list[1].rootMS2)
 
     return spectra_list
 
