@@ -1,6 +1,7 @@
 from pals.pimp_tools import *
+from .spectra import Spectra
 from .mS2peak import MS2peak
-from .Spectra import Spectra
+
 import os
 import sys
 import pathlib
