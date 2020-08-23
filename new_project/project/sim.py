@@ -28,6 +28,8 @@ def compare(spectra_list):
 
     print(len(matches))
 
+    return matches
+ 
     
 
 def similarity(spectra_list, s1, s2, round_precision=1):
