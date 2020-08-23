@@ -11,10 +11,10 @@ def compare(spectra_list):
     matches = {}
 
     #for i in range(0, (len(spectra_list)-1)):
-    for i in range (0, 499):
+    for i in range (0, 99):
         s1= spectra_list[i]
         #for n in range (i+1, len(spectra_list)):
-        for n in range (i+1, 500):
+        for n in range (i+1, 100):
             s2 = spectra_list[n]
             cosine_score = similarity(spectra_list, s1, s2, round_precision=0)
 
@@ -23,10 +23,11 @@ def compare(spectra_list):
             matches[s1][s2]={'cosine':cosine_score}
 
             if s2 not in matches:
-                matches[s1]={}
+                matches[s2]={}
             matches[s2][s1]={'cosine':cosine_score}
 
-    print (matches)
+    print(len(matches))
+
     
 
 def similarity(spectra_list, s1, s2, round_precision=1):
