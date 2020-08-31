@@ -48,10 +48,11 @@ def import_pimp():
     #creates spectra objects
     for index, rows in frags_df.iterrows(): 
         id_temp = frags_df.loc[(index), 'ms1_id']
-
+        i = 0
  
         if index == 0:
-            spectra = Spectra(id_temp)
+            mass = df.loc[(i), 'mass']
+            spectra = Spectra(id_temp, mass)
             id = frags_df.loc[(index), 'ms2_id']
             ms2mz = frags_df.loc[(index), 'ms2_mz']
             ms2rt = frags_df.loc[(index), 'ms2_intensity']
@@ -64,12 +65,15 @@ def import_pimp():
             Spectra.add_peak(spectra, id, ms2mz, ms2rt)
         else:
             #create new spectra and add to list
-            spectra = Spectra(id_temp)
+            i += 1
+            mass = df.loc[(i), 'mass']
+            spectra = Spectra(id_temp, mass)
             id = frags_df.loc[(index), 'ms2_id']
             ms2mz = frags_df.loc[(index), 'ms2_mz']
             ms2rt = frags_df.loc[(index), 'ms2_intensity']
             Spectra.add_peak(spectra, id, ms2mz, ms2rt)
 
+        spectra.scale_intensity()
         spectra_list.append(spectra)
 
 

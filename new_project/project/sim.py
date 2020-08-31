@@ -1,14 +1,23 @@
 from .mS2peak import MS2peak
+from .spectra import Spectra
 from .pimport import import_pimp
+from .networking import networking
 from collections import defaultdict as ddict
+from networkx.algorithms import matching
+import networkx as nx
 import math 
 import numpy as numpy
+
+
+
+
 
    
 def compare(spectra_list):
     print("running...")
 
     matches = {}
+
 
     #for i in range(0, (len(spectra_list)-1)):
     for i in range (0, 99):
@@ -26,13 +35,34 @@ def compare(spectra_list):
                 matches[s2]={}
             matches[s2][s1]={'cosine':cosine_score}
 
+            modified_similarity(spectra_list, s1, s2)
+
     print(len(matches))
+
+    networking(spectra_list, matches)
 
     return matches
  
+def modified_similarity (spectra_list, s1,s2, fragment_tolerance=0.3, precursor_tolerance=1.0):
+    modification = (s2.mass)-(s1.mass)
+
+    pairs = []
+    for i in s1.peaks:
+        for j in s2.peaks:
+            if (abs(i.ms2mz)-(j.ms2mz) <= fragment_tolerance) or (abs(i.ms2mz)+ modification - (j.ms2mz) <= fragment_tolerance):
+                match_score = i.scaled * j.scaled
+                pair = (i, j, match_score)
+                pairs.append(pair)
     
+    G = nx.Graph()
+    for i in pairs:
+        G.add_edge(i[0], i[1], weight=i[2])
+
+    matching = nx.algorithms.max_weight_matching(G)
 
 def similarity(spectra_list, s1, s2, round_precision=1):
+
+    
     vector1 = ddict(int) 
     vector2 = ddict(int)
     mzs = set()
