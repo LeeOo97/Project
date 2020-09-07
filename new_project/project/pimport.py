@@ -49,7 +49,7 @@ def import_pimp():
     for index, rows in frags_df.iterrows(): 
         id_temp = frags_df.loc[(index), 'ms1_id']
         i = 0
- 
+        #if first item in dataframe
         if index == 0:
             mass = df.loc[(i), 'mass']
             spectra = Spectra(id_temp, mass)
@@ -57,12 +57,14 @@ def import_pimp():
             ms2mz = frags_df.loc[(index), 'ms2_mz']
             ms2rt = frags_df.loc[(index), 'ms2_intensity']
             Spectra.add_peak(spectra, id, ms2mz, ms2rt)
+        #if the temporary ID is the same as the MS1 ID of the previous spectrum, it is the same spectrum and the MS2 peak object is added
         elif id_temp == frags_df.loc[(index-1), 'ms1_id']:
             #adds to list
             id = frags_df.loc[(index), 'ms2_id']
             ms2mz = frags_df.loc[(index), 'ms2_mz']
             ms2rt = frags_df.loc[(index), 'ms2_intensity']
             Spectra.add_peak(spectra, id, ms2mz, ms2rt)
+        #if a new spectrum ID is found, a new spectrum is generated
         else:
             #create new spectra and add to list
             i += 1
