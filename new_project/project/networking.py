@@ -49,6 +49,9 @@ def top_k (net, nodes, edges):
 
 def max_net (net):
     print('blah blah')
+    #determine the max size of a component
+    #check network for components larger
+    #remove lowest cosines until component is compliant 
 
 
 def graphml (graph, name):
