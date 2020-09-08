@@ -55,18 +55,27 @@ def max_net (net):
     #check network for components larger
     #remove lowest cosines until component is compliant 
 
+
+    #sets max size of component
     max_size = 10
+    #creates new list of edges to form filtered network
     new_component_total = []
+
+    #identifies component and sorts edges by weight
     for node in nx.nodes(net):
         component = nx.node_connected_component(net, node)
         edges = sorted(net.edges(node, data=True), key = lambda t: t[2].get('weight', 1), reverse=True)
 
+        #if component size is > max_size, edges are removed until it is <= max_size and a new component is generated
         if (len(component)>max_size):
             new_component = new_component(remove_last_edge(net, edges, node, max_size), max_size)
             new_component_total.extend(new_component)
+
+        #if a component is small enough, new_component total is automatically extended
         else: 
             new_component_total.extend(edges)
 
+    #creates a new network with filtered components
     max_size_component_net = nx.Graph(new_component_total)
 
     for n in nx.nodes(net):
@@ -77,8 +86,10 @@ def max_net (net):
              
 def remove_last_edge(net, edges, node, max_size):
     
+    #sets edge to be removed
     remove = edges[-1]
     edges = edges[:-1]
+    #removes edge
     net.remove_edge(remove[0], remove[1])
     component = nx.node_connected_component(net, node)
     #recalls remove_edge until component has <=10 edges
@@ -88,7 +99,9 @@ def remove_last_edge(net, edges, node, max_size):
 
 
 def new_component (edges, max_size):
+    #list to hold new component edges
     new_component = []
+    #adds edges to new_component
     for i in range (0,max_size):
         new_component.append(edges[i])
     
