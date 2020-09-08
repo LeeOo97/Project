@@ -50,7 +50,7 @@ def top_k (net, nodes, edges):
     return top_k_net
 
 def max_net (net):
-    print('blah blah')
+
     #determine the max size of a component (10)
     #check network for components larger
     #remove lowest cosines until component is compliant 
