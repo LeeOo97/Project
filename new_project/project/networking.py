@@ -38,7 +38,7 @@ def top_k (net, nodes, edges):
             for e1 in n1_top_k:
                 for e2 in n2_top_k:
                     if e1 == e2:
-                        top_k.append(e1)
+                        top_k.append(n1_top_k[e1])
 
     #creates new network
     top_k_net = nx.Graph(top_k)
@@ -60,10 +60,12 @@ def max_net (net):
     for node in nx.nodes(net):
         component = nx.node_connected_component(net, node)
         edges = sorted(net.edges(node, data=True), key = lambda t: t[2].get('weight', 1), reverse=True)
+
         if (len(component)>max_size):
-            remove_last_edge(net, edges, node, max_size)
-        else:
+            new_component = new_component(remove_last_edge(net, edges, node, max_size), max_size)
             new_component_total.extend(new_component)
+        else: 
+            new_component_total.extend(edges)
 
     max_size_component_net = nx.Graph(new_component_total)
 
@@ -82,6 +84,7 @@ def remove_last_edge(net, edges, node, max_size):
     #recalls remove_edge until component has <=10 edges
     if (len(component)>max_size):
         remove_last_edge(net, edges, node, max_size)
+    return edges 
 
 
 def new_component (edges, max_size):
