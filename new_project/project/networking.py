@@ -82,9 +82,14 @@ def max_net (net):
 
             
 
+    #removes duplicates from edge list
+    component_final = []
+    for edge in new_component_total:
+        if edge not in component_final:
+            component_final.append(edge)
+            
     #creates a new network with filtered components
-
-    max_size_component_net = nx.Graph(set(new_component_total))
+    max_size_component_net = nx.Graph(component_final)
 
     for n in nx.nodes(net):
         max_size_component_net.add_node(n)
