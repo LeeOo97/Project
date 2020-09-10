@@ -51,32 +51,40 @@ def top_k (net, nodes, edges):
 
 def max_net (net):
 
-    #determine the max size of a component (10)
-    #check network for components larger
-    #remove lowest cosines until component is compliant 
-
-
     #sets max size of component
     max_size = 10
     #creates new list of edges to form filtered network
     new_component_total = []
 
+
     #identifies component and sorts edges by weight
     for node in nx.nodes(net):
+          
         component = nx.node_connected_component(net, node)
-        edges = sorted(net.edges(node, data=True), key = lambda t: t[2].get('weight', 1), reverse=True)
+        
+        #list of all edges in a component
+        component_edges = []
+
+        #adds to list of component edges
+        for n in component:
+            edges = sorted(net.edges(n, data=True), key = lambda t: t[2].get('weight', 1), reverse=True)
+            component_edges.extend(edges)
+
 
         #if component size is > max_size, edges are removed until it is <= max_size and a new component is generated
         if (len(component)>max_size):
-            new_component = new_component(remove_last_edge(net, edges, node, max_size), max_size)
+            new_component = new_component(remove_last_edge(net, component_edges, node, max_size), max_size)
             new_component_total.extend(new_component)
 
         #if a component is small enough, new_component total is automatically extended
         else: 
             new_component_total.extend(edges)
 
+            
+
     #creates a new network with filtered components
-    max_size_component_net = nx.Graph(new_component_total)
+
+    max_size_component_net = nx.Graph(set(new_component_total))
 
     for n in nx.nodes(net):
         max_size_component_net.add_node(n)
@@ -106,6 +114,7 @@ def new_component (edges, max_size):
         new_component.append(edges[i])
     
     return new_component
+
 
 def graphml (graph, name):
     #writes graphml file from any network passed in
