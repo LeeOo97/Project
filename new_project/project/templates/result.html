@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+    <body>
+        <div class="row">
+            <form method="GET" action="/uploads/graph.graphml">
+                <button class="btn btn-primary btn-lg btn-block" type="submit" value="submit">Download graphml file</button>
+            </form>
+        </div>
+        <img src="{{url_for('static', filename='graph_image.svg')}}"/>
+    </body>
+</html>

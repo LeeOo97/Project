@@ -20,26 +20,27 @@ def compare(spectra_list):
 
 
     #for i in range(0, (len(spectra_list)-1)):
-    for i in range (0, 20):
+    for i in range (0, 10):
         s1= spectra_list[i]
         #for n in range (i+1, len(spectra_list)):
-        for n in range (i+1, 20):
+        for n in range (i+1, 10):
             s2 = spectra_list[n]
             print (i , n)
             
             #calls modified similarity method to find cosine score and number of peaks
-            cosine_score, count = modified_similarity(spectra_list, s1, s2)
+            if s1!=s2:
+                cosine_score, count = modified_similarity(spectra_list, s1, s2)
 
-            if (cosine_score==0 and count==0):
-                continue
-            #adds to matches if not already in matches
-            if s1 not in matches:
-                matches[s1]={}
-            matches[s1][s2]={'cosine':cosine_score, 'peaks': count}
+                if (cosine_score==0 and count==0):
+                    continue
+                #adds to matches if not already in matches
+                if s1 not in matches:
+                    matches[s1]={}
+                matches[s1][s2]={'cosine':cosine_score, 'peaks': count}
 
-            if s2 not in matches:
-                matches[s2]={}
-            matches[s2][s1]={'cosine':cosine_score, 'peaks': count}
+                if s2 not in matches:
+                    matches[s2]={}
+                matches[s2][s1]={'cosine':cosine_score, 'peaks': count}
 
 
 

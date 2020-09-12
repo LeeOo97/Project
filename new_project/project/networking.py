@@ -1,44 +1,55 @@
 import networkx as nx
-
+import matplotlib.pyplot as plt
+import igraph
 
 def networking (nodes,edges):
     #creates graph
     net = nx.Graph()
 
+    #adds nodes to graph
+    for n in nodes:
+        net.add_node(str(n.id1))
+    
+    
 
     for s1 in edges.keys():
         for s2 in edges[s1].keys():
-            net.add_edge(int(s1.id1),int(s2.id1))
+            #net.add_edge(int(s1.id1),int(s2.id1), length=edges[s1][s2]["cosine"], weight = edges[s1][s2]["peaks"])
+            net.add_edge(str(s1.id1),str(s2.id1), length=edges[s1][s2]["cosine"], weight = edges[s1][s2]["peaks"])
 
-    #adds nodes to graph
-    for n in nodes:
-        net.add_node(n.id1)
+
     
 
 
     #prints number of nodes in net
     print(net.number_of_nodes())
 
-    nx.write_graphml(net, "kdjfhbskdf.graphml")
+
+    nx.write_graphml(net, "graph.graphml")
+    nx.write_gml(net, "graph.gml")
+    graph = igraph.load("graph.gml")
+    layout = graph.layout("fr")
+    igraph.Graph.write_svg(graph,fname="static/graph_image.svg", layout = layout, width = 4000, height = 4000)
+ 
 
     return net
 
-def top_k (net, nodes, edges):
+def top_k (net, k):
     #initilialises list to hold edges for filtered network
     top_k = []
-
+    
     #creates a list of the top 1000 edges for node 1
     for n1 in range (0, (net.number_of_nodes)-1):
         n1_edges = sorted(net.edges(n1, data=True), key=lambda t: t[2].get('weight', 1), reverse=True)
         n1_top_k = []
-        for i in range (0, 1000):
+        for i in range (0, k):
             n1_top_k.append(n1_edges[i])
 
         #creates a list of the top 1000 edges for node 2
         for n2 in range ((n1+1), net.number_of_nodes):
             n2_edges = sorted(net.edges(n2,data=True), key=lambda t: t[2].get('weight', 1), reverse=True)
             n2_top_k = []
-            for j in range (0, 1000):
+            for j in range (0, k):
                 n2_top_k.append(n2_edges[j])
 
             #if an edge is present in the top 1000 edges for both nodes, it is added to top_k for generation of new network
@@ -56,10 +67,9 @@ def top_k (net, nodes, edges):
     
     return top_k_net
 
-def max_net (net):
+def max_net (net, max_size):
 
-    #sets max size of component
-    max_size = 10
+
     #creates new list of edges to form filtered network
     new_component_total = []
 
