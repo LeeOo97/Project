@@ -1,7 +1,7 @@
-from .mS2peak import MS2peak
-from .spectra import Spectra
-from .pimport import import_pimp
-from .networking import networking
+from mS2peak import MS2peak
+from spectra import Spectra
+from pimport import import_pimp
+from networking import networking
 from collections import defaultdict as ddict
 from networkx.algorithms import matching
 import networkx as nx
@@ -45,10 +45,8 @@ def compare(spectra_list):
 
     print(len(matches))
     
-    #generates network by passing spectra_list(nodes) and matches(edges)
-    networking(spectra_list, matches)
-
-    return matches
+ 
+    return spectra_list, matches
  
 def modified_similarity (spectra_list, s1,s2, fragment_tolerance=0.3, precursor_tolerance=1.0):
     #calculate modification

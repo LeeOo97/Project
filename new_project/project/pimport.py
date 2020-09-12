@@ -1,6 +1,6 @@
 from pals.pimp_tools import *
-from .spectra import Spectra
-from .mS2peak import MS2peak
+from spectra import Spectra
+from mS2peak import MS2peak
 
 import os
 import sys
@@ -14,15 +14,15 @@ import pandas as pd
 import numpy
 
 #class pimport:
-def import_pimp():
+def import_pimp(username, password, analysis_id):
     #Token generation
-    username = '2143815O' #username
-    password = 'XPNfM4nfYQ' #password
+    #username = '2143815O' #username
+    #password = 'XPNfM4nfYQ' #password
     host = PIMP_HOST #server address and port
     token = get_authentication_token(host, username, password)
 
     #id for pimp project
-    analysis_id = 1321 # beer analysis
+    #analysis_id = 1321 # beer analysis
 
     #fetches ms1 intensities
     int_df, annotation_df, experimental_design = download_from_pimp(token, PIMP_HOST, analysis_id, 'ms1')

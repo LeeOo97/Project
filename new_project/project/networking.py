@@ -3,16 +3,23 @@ import networkx as nx
 
 def networking (nodes,edges):
     #creates graph
-    net = nx.Graph(edges)
+    net = nx.Graph()
+
+
+    for s1 in edges.keys():
+        for s2 in edges[s1].keys():
+            net.add_edge(int(s1.id1),int(s2.id1))
 
     #adds nodes to graph
     for n in nodes:
-        net.add_node(n)
+        net.add_node(n.id1)
+    
+
 
     #prints number of nodes in net
     print(net.number_of_nodes())
 
-    max_net(net)
+    nx.write_graphml(net, "kdjfhbskdf.graphml")
 
     return net
 
@@ -121,7 +128,7 @@ def new_component (edges, max_size):
     return new_component
 
 
-def graphml (graph, name):
+#def graphml (graph, name):
     #writes graphml file from any network passed in
-    gml = nx.write_graphml(graph, name)
-    return gml
+    
+   

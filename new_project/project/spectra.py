@@ -1,4 +1,4 @@
-from .mS2peak import MS2peak
+from mS2peak import MS2peak
 import numpy
 
 class Spectra:
