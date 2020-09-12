@@ -20,10 +20,10 @@ def compare(spectra_list):
 
 
     #for i in range(0, (len(spectra_list)-1)):
-    for i in range (0, 10):
+    for i in range (0, 50):
         s1= spectra_list[i]
         #for n in range (i+1, len(spectra_list)):
-        for n in range (i+1, 10):
+        for n in range (i+1, 50):
             s2 = spectra_list[n]
             print (i , n)
             
