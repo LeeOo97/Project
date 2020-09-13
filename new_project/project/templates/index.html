@@ -26,7 +26,9 @@
             <div class="col-md-6 mb-3">
               <label for="password">Password</label>
               <input type="text" class="form-control" id="password" name="password" placeholder="" value="" required="">
-
+              <div class="invalid-feedback" style="width: 100%;">
+                Valid password is required.
+              </div>
             </div>
           </div>
   
@@ -35,7 +37,7 @@
             <div class="input-group">
               <input type="text" class="form-control" id="analysis_id" name="analysis_id" placeholder="" required="">
               <div class="invalid-feedback" style="width: 100%;">
-                Your analysis ID is required.
+                Valid analysis ID is required.
               </div>
             </div>
           </div>
@@ -55,11 +57,11 @@
             <label for="max_component_size">Max component size</label>
             <input type="text" class="form-control" id="max_component_size" name="max_component_size" placeholder="" value="">
           </div>
-  
-
-  
+   
  
           <button class="btn btn-primary btn-lg btn-block" type="submit" value="submit">Submit</button>
+          
+
         </form>
       </div>
     <!-- Optional JavaScript -->
