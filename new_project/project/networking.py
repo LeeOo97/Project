@@ -23,7 +23,7 @@ def networking (nodes,edges):
     #prints number of nodes in net
     print(net.number_of_nodes())
 
-
+    #exports .graphml and exports .svg to browser
     nx.write_graphml(net, "graph.graphml")
     nx.write_gml(net, "graph.gml")
     graph = igraph.load("graph.gml")
@@ -170,15 +170,16 @@ def new_top_k(net, k):
 
     top_k = []
         
-
+    #loops through edges in network
     for e in net.edges:
-
+        #defines end points for edges
         source, target = e
 
+        #sorts edges for both end points
         sorted_source = sorted(net.edges(source, data=True), key=lambda t: t[2].get('cosine', 1), reverse=True)
         sorted_target = sorted(net.edges(target, data=True), key=lambda t: t[2].get('cosine', 1), reverse=True)
 
-        
+        #checks if number of edges is within K already
         if k < (len(sorted_source)):
             top_source = sorted_source[:k]
         else:
@@ -188,7 +189,7 @@ def new_top_k(net, k):
         else: 
             top_target = sorted_target
 
-
+        #adds edge to top_k_net 
         for s in top_source:
             s_source, s_target, s_cos = s
             for t in top_target:
@@ -196,9 +197,11 @@ def new_top_k(net, k):
                 if t_source==s_target and s_source==t_target:
                     top_k_net.add_edge(str(s_source),str(s_target), weight = s_cos)
 
+    #adds nodes
     for n in nx.nodes(net):
         top_k_net.add_node(n)
 
+    #export
     nx.write_graphml(top_k_net, "graph.graphml")
     nx.write_gml(top_k_net, "graph.gml")
     graph = igraph.load("graph.gml")

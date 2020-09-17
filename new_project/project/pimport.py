@@ -76,7 +76,7 @@ def import_pimp(username, password, analysis_id):
         spectra.scale_intensity()
         spectra_list.append(spectra)
 
-
+    #checks if spectra_list is filling
     print(spectra_list[2].id1)
 
     return spectra_list
