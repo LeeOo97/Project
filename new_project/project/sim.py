@@ -102,6 +102,7 @@ def similarity(spectra_list, s1, s2, round_precision=1):
     vector2 = ddict(int)
     mzs = set()
 
+    #populatees vector lists with MS2 peaks
     for MS2peak in s1.peaks:
         vector1[round((MS2peak.ms2mz), round_precision)]
         mzs.add(round((MS2peak.ms2mz), round_precision))
@@ -113,14 +114,16 @@ def similarity(spectra_list, s1, s2, round_precision=1):
     n_v1 = 0
     n_v2 = 0
 
+    #calculates similarity between peaks and calculates spectra similarity
     for ms2mz in mzs:
-        int1 = vector1[ms2mz]
-        int2 = vector2[ms2mz]
-        z += int1*int2
-        n_v1 += int1*int1
-        n_v2 += int2*int2
+        peak_sim_1 = vector1[ms2mz]
+        peak_sim_2 = vector2[ms2mz]
+        z += peak_sim_1*peak_sim_2
+        n_v1 += peak_sim_1 * peak_sim_1
+        n_v2 += peak_sim_2 * peak_sim_2
     try:
         cosine = z/(math.sqrt(n_v1)* math.sqrt(n_v2))
+    #if cosine is 0.0, no cosine is returned
     except:
         cosine = 0.0
     return cosine 
