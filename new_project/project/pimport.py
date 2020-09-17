@@ -41,9 +41,7 @@ def import_pimp(username, password, analysis_id):
     #initialises list for MS2peak objects
 
     spectra_list = []
-    #spectra_list = np.array([], dtype = np.object)
-    #spectra_list = np.array([], dtype=object)
-    #spectra_list = np.vstack(spectra_list[:]).astype(np.float)
+
 
     #creates spectra objects
     for index, rows in frags_df.iterrows(): 

@@ -29,7 +29,7 @@ def result():
     top_k=request.form.get("top_k")
     max_component_size=request.form.get("max_component_size")
     filter = request.form.get("filters") 
-    print (filter)
+
 
     spectra_list, matches = sim.compare(pimport.import_pimp(username, password, analysis_id))
     #generates network by passing spectra_list(nodes) and matches(edges)
@@ -37,10 +37,10 @@ def result():
 
     if filter is not None:
         if top_k != "":
-            network = networking.top_k(network, int(top_k))
+            network = networking.new_top_k(network, (int(top_k))) 
             
         if max_component_size != "":
-            network = networking.max_net(network, int(max_component_size))
+            network = networking.max_net(network, (int(max_component_size)))
     #networking.graphml(network, "graph.graphml")
     
 
