@@ -8,18 +8,20 @@ import networking
 import igraph
 
 app = Flask(__name__)
-
+#path for file uploads
 UPLOAD_DIRECTORY = "/uploads" 
 
+#homepage
 @app.route('/')
 def index():
     return render_template("index.html")
 
-
+#returns file for download
 @app.route('/uploads/<path:filename>', methods = ["GET"])
 def file_downloads(filename):
     return send_file("uploads/" + filename)
 
+#takes account details 
 @app.route('/result', methods=["POST"])
 def result():
     print(request.form)
@@ -35,6 +37,7 @@ def result():
     #generates network by passing spectra_list(nodes) and matches(edges)
     network = networking.networking(spectra_list, matches)
 
+    #applies filters
     if filter is not None:
         if top_k != "":
             network = networking.new_top_k(network, (int(top_k))) 
@@ -44,7 +47,7 @@ def result():
     #networking.graphml(network, "graph.graphml")
     
 
-
+    #export
     nx.write_graphml(network, "uploads/graph.graphml")
     nx.write_gml(network, "graph.gml")
     graph = igraph.load("graph.gml")

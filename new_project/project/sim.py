@@ -20,10 +20,10 @@ def compare(spectra_list):
 
 
     #for i in range(0, (len(spectra_list)-1)/test value -1):
-    for i in range (0, 50):
+    for i in range (0, (len(spectra_list)-1)):
         s1= spectra_list[i]
         #for n in range (i+1, len(spectra_list)/test value):
-        for n in range (i+1, 50):
+        for n in range (i+1, len(spectra_list)):
             s2 = spectra_list[n]
             #prints in console the position of similarity calculator
             print (i , n)
